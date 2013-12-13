@@ -45,8 +45,6 @@ if len(uid_list) > 1:
 		email_address = email_from[1]
 		
 		# assemble post components
-		# debug
-		print email_message
 		post_date = email_message['Date']
 		post_title = email_message['Subject'].replace(' ', '_')
 		post_body = get_message_html(email_message) #get_first_text_block(email_message).replace('\n', '</br>')
