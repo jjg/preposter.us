@@ -45,9 +45,11 @@ if len(uid_list) > 1:
 		email_address = email_from[1]
 		
 		# assemble post components
+		post_author = email_address.split('@')[0]
 		post_date = email_message['Date']
-		post_title = email_message['Subject'].replace(' ', '_')
-		post_body = get_message_html(email_message) #get_first_text_block(email_message).replace('\n', '</br>')
+		post_title = email_message['Subject']
+		post_slug = post_title.replace(' ', '_')
+		post_body = get_message_html(email_message)
 		
 		# check for blog subdir
 		if not os.path.exists(email_address):
@@ -55,20 +57,31 @@ if len(uid_list) > 1:
 			# create directory for new blog
 			os.makedirs(email_address)
 			
+			# create the blog index
+			blog_index = open(email_address + '/index.html', 'a')
+			blog_index.write('<html><head><title>preposterous blog of %s</title></head>' % post_author)
+			blog_index.write('<body><h1>%s\'s preposterous blog</h1>' % post_author)
+			blog_index.write('<h3>Posts</h3>\n<ul>')
+			blog_index.close()
+			
 			# update site index
 			site_index = open('index.html', 'a')
-			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (email_address, email_address))
+			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (email_address, post_author))
 			site_index.close()
+			
 		
 		# generate post
-		post_file = open(email_address + '/' + post_title + '.html', 'w')
+		post_file = open(email_address + '/' + post_slug + '.html', 'w')
+		post_file.write('<h3>%s</h3>' % post_title)
 		post_file.write(post_body)
 		post_file.close()
 		
 		# update blog index
 		blog_index = open(email_address + '/index.html', 'a')
-		blog_index.write('%s - <a href=\'%s.html\'>%s</a></br>' % (post_date, post_title, post_title))
+		blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 		blog_index.close()
+else:
+	print('nothing to do, exiting')
 
 
 
