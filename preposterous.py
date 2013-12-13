@@ -34,7 +34,7 @@ result, data = mailbox.uid('search', None, 'UNSEEN')
 uid_list = data.pop().split(' ')
 
 # when there's only one thing in the list, it's junk, so skip it
-if len(uid_list) > 1:
+if uid_list[0] != '':
 	for uid in uid_list:
 		
 		# fetch message
