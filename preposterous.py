@@ -15,7 +15,7 @@ def get_message_html(message):
 	message_parts = message.get_payload()
 	for part in message_parts:
 		if part.get_content_type() == 'text/html':
-			return part.get_payload()
+			return part.get_payload(decode=True)
 
 # check for new messages
 mailbox = imaplib.IMAP4_SSL(IMAP_SERVER)
