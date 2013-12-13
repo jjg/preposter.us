@@ -9,6 +9,7 @@ import hashlib
 IMAP_SERVER = ''
 IMAP_EMAIL_ADDRESS = ''
 IMAP_EMAIL_PASSWORD = ''
+WEB_ROOT = ''
                 
 def get_message_html(message):
 	message_parts = message.get_payload()
@@ -47,30 +48,31 @@ if uid_list[0] != '':
 		email_hash = hashlib.md5()
 		email_hash.update(email_address)
 		blog_directory = email_hash.hexdigest()
-		if not os.path.exists(blog_directory):
+		blog_physical_path = WEB_ROOT + '/' + blog_directory
+		if not os.path.exists(WEB_ROOT + '/' + blog_directory):
 		
 			# create directory for new blog
-			os.makedirs(blog_directory)
+			os.makedirs(blog_physical_path)
 			
 			# create the blog index
-			blog_index = open(blog_directory + '/index.html', 'a')
+			blog_index = open(blog_physical_path + '/index.html', 'a')
 			blog_index.write('<html><head><title>preposterous blog of %s</title></head>' % post_author)
 			blog_index.write('<body><h1>%s\'s preposterous blog</h1>' % post_author)
 			blog_index.write('<h3>Posts</h3>\n<ul>')
 			blog_index.close()
 			
 			# update site index
-			site_index = open('index.html', 'a')
+			site_index = open(WEB_ROOT + '/index.html', 'a')
 			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
 			site_index.close()
 			
 		# generate post
-		post_file = open(blog_directory + '/' + post_slug + '.html', 'w')
+		post_file = open(blog_physical_path + '/' + post_slug + '.html', 'w')
 		post_file.write('<h3>%s</h3>' % post_title)
 		post_file.write(post_body)
 		post_file.close()
 		
 		# update blog index
-		blog_index = open(blog_directory + '/index.html', 'a')
+		blog_index = open(blog_physical_path + '/index.html', 'a')
 		blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 		blog_index.close()
