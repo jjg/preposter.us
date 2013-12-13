@@ -87,6 +87,8 @@ if uid_list[0] != '':
 			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
 			site_index.close()
 			
+			send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
+			
 		post_physical_path = blog_physical_path + '/' + post_slug + '.html'
 		
 		# if necissary, update blog index
