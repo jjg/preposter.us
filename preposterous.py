@@ -12,10 +12,17 @@ def get_first_text_block(email_message_instance):
     maintype = email_message_instance.get_content_maintype()
     if maintype == 'multipart':
         for part in email_message_instance.get_payload():
-            if part.get_content_maintype() == 'html':
+            if part.get_content_maintype() == 'text':
                 return part.get_payload()
     elif maintype == 'text':
         return email_message_instance.get_payload()
+        
+        
+def get_message_html(message):
+	message_parts = message.get_payload()
+	for part in message_parts:
+		if part.get_content_type() == 'text/html':
+			return part.get_payload()
 
 
 # check for new messages
@@ -42,7 +49,7 @@ if len(uid_list) > 1:
 		print email_message
 		post_date = email_message['Date']
 		post_title = email_message['Subject'].replace(' ', '_')
-		post_body = get_first_text_block(email_message).replace('\n', '</br>')
+		post_body = get_message_html(email_message) #get_first_text_block(email_message).replace('\n', '</br>')
 		
 		# check for blog subdir
 		if not os.path.exists(email_address):
