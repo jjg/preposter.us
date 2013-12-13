@@ -67,12 +67,14 @@ if uid_list[0] != '':
 			site_index.close()
 			
 		# generate post
-		post_file = open(blog_physical_path + '/' + post_slug + '.html', 'w')
+		post_physical_path = blog_physical_path + '/' + post_slug + '.html'
+		post_file = open(post_physical_path, 'w')
 		post_file.write('<h3>%s</h3>' % post_title)
 		post_file.write(post_body)
 		post_file.close()
 		
 		# update blog index
-		blog_index = open(blog_physical_path + '/index.html', 'a')
-		blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
-		blog_index.close()
+		if not os.path.exists(os.path.exists(post_physical_path)):
+			blog_index = open(blog_physical_path + '/index.html', 'a')
+			blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
+			blog_index.close()
