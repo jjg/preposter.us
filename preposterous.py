@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import imaplib
 import email
 import os
@@ -23,7 +22,6 @@ def get_message_html(message):
 			return part.get_payload(decode=True)
 			
 def send_notification(destination_email, subject, message):
-
 	# assemble email
 	message = MIMEText(message)
 	message['Subject'] = subject
@@ -47,7 +45,6 @@ uid_list = data.pop().split(' ')
 
 # if there's no valid uid in the list, skip it
 if uid_list[0] != '':
-
 	for uid in uid_list:
 		
 		# fetch message
