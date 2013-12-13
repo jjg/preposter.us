@@ -1,40 +1,31 @@
 #!/usr/bin/python
 
-# preposterous
-# preposterous1984@gmail.com !1a2S3d4f5g!
-
 import imaplib
 import email
 import os
 import hashlib
 
-
-def get_first_text_block(email_message_instance):
-    maintype = email_message_instance.get_content_maintype()
-    if maintype == 'multipart':
-        for part in email_message_instance.get_payload():
-            if part.get_content_maintype() == 'text':
-                return part.get_payload()
-    elif maintype == 'text':
-        return email_message_instance.get_payload()
-        
-        
+# config
+IMAP_SERVER = ''
+IMAP_EMAIL_ADDRESS = ''
+IMAP_EMAIL_PASSWORD = ''
+                
 def get_message_html(message):
 	message_parts = message.get_payload()
 	for part in message_parts:
 		if part.get_content_type() == 'text/html':
 			return part.get_payload()
 
-
 # check for new messages
-mailbox = imaplib.IMAP4_SSL('imap.gmail.com')
-mailbox.login('preposterous1984@gmail.com', '!1a2S3d4f5g!')
+mailbox = imaplib.IMAP4_SSL(IMAP_SERVER)
+mailbox.login(IMAP_EMAIL_ADDRESS, IMAP_EMAIL_PASSWORD)
 mailbox.select()
 result, data = mailbox.uid('search', None, 'UNSEEN')
 uid_list = data.pop().split(' ')
 
-# when there's only one thing in the list, it's junk, so skip it
+# if there's no valid uid in the list, skip it
 if uid_list[0] != '':
+
 	for uid in uid_list:
 		
 		# fetch message
@@ -83,8 +74,3 @@ if uid_list[0] != '':
 		blog_index = open(blog_directory + '/index.html', 'a')
 		blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 		blog_index.close()
-else:
-	print('nothing to do, exiting')
-
-
-
