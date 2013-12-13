@@ -12,6 +12,9 @@ Preposterus maintains an index of all bloggers using each server, and generates 
 
 Anything that can send an email can publish via Preposterus.
 
+###Requirements###
+Preposterous requires Python (tested with 2.7, but probably works with any 2.x version), and a webserver that can serve static HTML; thats all.  No database, no libraries, nada.
+
 ###Useage###
 To setup a Preposterous server, start by setting up an email address that the server will listen to (an address you'll be sending posts to), free gmail addresses work great for this.
 
