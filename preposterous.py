@@ -4,11 +4,16 @@ import imaplib
 import email
 import os
 import hashlib
+import smtplib
+from email.mime.text import MIMEText
 
 # config
+SMTP_SERVER = ''
+SMTP_PORT = ''
 IMAP_SERVER = ''
 IMAP_EMAIL_ADDRESS = ''
 IMAP_EMAIL_PASSWORD = ''
+WEB_HOST =''
 WEB_ROOT = ''
                 
 def get_message_html(message):
@@ -16,6 +21,22 @@ def get_message_html(message):
 	for part in message_parts:
 		if part.get_content_type() == 'text/html':
 			return part.get_payload(decode=True)
+			
+def send_notification(destination_email, subject, message):
+
+	# assemble email
+	message = MIMEText(message)
+	message['Subject'] = subject
+	message['From'] = IMAP_EMAIL_ADDRESS
+	message['To'] = destination_email
+	
+	# send
+	s = smtplib.SMTP(SMTP_SERVER + ':' + SMTP_PORT)
+	s.ehlo()
+	s.starttls()
+	s.login(IMAP_EMAIL_ADDRESS, IMAP_EMAIL_PASSWORD)
+	s.sendmail(IMAP_EMAIL_ADDRESS, destination_email, message.as_string())
+	s.quit()
 
 # check for new messages
 mailbox = imaplib.IMAP4_SSL(IMAP_SERVER)
@@ -73,8 +94,10 @@ if uid_list[0] != '':
 		post_file.write(post_body)
 		post_file.close()
 		
+		send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
+		
 		# update blog index
-		if not os.path.exists(os.path.exists(post_physical_path)):
+		if not os.path.exists(post_physical_path):
 			blog_index = open(blog_physical_path + '/index.html', 'a')
 			blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 			blog_index.close()
