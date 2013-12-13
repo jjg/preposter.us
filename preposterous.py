@@ -38,10 +38,13 @@ if len(uid_list) > 1:
 		email_address = email_from[1]
 		
 		# assemble post components
+		# debug
+		print email_message
+		post_date = email_message['Date']
 		post_title = email_message['Subject'].replace(' ', '_')
 		post_body = get_first_text_block(email_message).replace('\n', '</br>')
 		
-		# check for sender subdir
+		# check for blog subdir
 		if not os.path.exists(email_address):
 		
 			# create directory for new blog
@@ -49,7 +52,7 @@ if len(uid_list) > 1:
 			
 			# update site index
 			site_index = open('index.html', 'a')
-			site_index.write('<a href=\'%s\'>%s</a></br>' % (email_address, email_address))
+			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (email_address, email_address))
 			site_index.close()
 		
 		# generate post
@@ -59,7 +62,7 @@ if len(uid_list) > 1:
 		
 		# update blog index
 		blog_index = open(email_address + '/index.html', 'a')
-		blog_index.write('<a href=\'%s.html\'>%s</a></br>' % (post_title, post_title))
+		blog_index.write('%s - <a href=\'%s.html\'>%s</a></br>' % (post_date, post_title, post_title))
 		blog_index.close()
 
 
