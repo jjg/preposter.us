@@ -12,7 +12,7 @@ def get_first_text_block(email_message_instance):
     maintype = email_message_instance.get_content_maintype()
     if maintype == 'multipart':
         for part in email_message_instance.get_payload():
-            if part.get_content_maintype() == 'text':
+            if part.get_content_maintype() == 'html':
                 return part.get_payload()
     elif maintype == 'text':
         return email_message_instance.get_payload()
