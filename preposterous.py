@@ -47,12 +47,15 @@ def unpack_message(uid, message, blog_dir):
 			store_file = True
 			email_body = email_body + '<img src=\'assets/%s\'>' % filename
 			
-		# TODO: handle video
+		# handle video
 		if filename.find('.mov') > 0 or filename.find('.mp4') > 0 or filename.find('.ogg') > 0 :
 			store_file = True
 			email_body = email_body + '<video controls><source src=\'assets/%s\'></video>' % filename
 		
-		# TODO: handle audio
+		# handle audio
+		if filename.find('.mp3') > 0 or filename.find('.wav') > 0 or filename.find('.m4a') > 0:
+			store_file = True
+			email_body = email_body + '<audio controls><source src=\'assets/%s\'></audio>' % filename
 		
 		if store_file:
 			counter += 1
