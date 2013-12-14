@@ -4,6 +4,8 @@ import email
 import os
 import hashlib
 import smtplib
+import sys
+import mimetypes
 from email.mime.text import MIMEText
 
 # config
@@ -12,15 +14,41 @@ SMTP_PORT = ''
 IMAP_SERVER = ''
 IMAP_EMAIL_ADDRESS = ''
 IMAP_EMAIL_PASSWORD = ''
-WEB_HOST =''
+WEB_HOST = ''
 WEB_ROOT = ''
                 
-def get_message_html(message):
-	message_parts = message.get_payload()
-	for part in message_parts:
-		if part.get_content_type() == 'text/html':
-			return part.get_payload(decode=True)
+def unpack_message(uid, message, blog_dir):
+	email_body = None
+	counter = 1
+	for part in message.walk():
+		if part.get_content_maintype() == 'multipart':
+			continue
+		filename = part.get_filename()
+		if not filename:
+			ext = mimetypes.guess_extension(part.get_content_type())
+			if not ext:
+				# Use a generic bag-of-bits extension
+				ext = '.bin'
+			filename = 'part-%03d%s' % (counter, ext)
 			
+		filename = '%s-%s' % (uid, filename)
+		
+		counter += 1
+		
+		fp = open(os.path.join(blog_dir, 'assets', filename), 'wb')
+		fp.write(part.get_payload(decode=True))
+		fp.close()
+		
+		# extract message body
+		if part.get_content_type() == 'text/html':
+			email_body = part.get_payload(decode=True)
+			
+		# append images (this is a hack)
+		if filename.find('.jpg') > 0:
+			email_body = email_body + '<img src=\'assets/%s\'>' % filename
+	
+	return email_body
+
 def send_notification(destination_email, subject, message):
 	# assemble email
 	message = MIMEText(message)
@@ -36,11 +64,17 @@ def send_notification(destination_email, subject, message):
 	s.sendmail(IMAP_EMAIL_ADDRESS, destination_email, message.as_string())
 	s.quit()
 
-# check for new messages
+# get messages
+imap_search = 'UNSEEN'
+if len(sys.argv) > 1:
+	if sys.argv[1] == 'rebuild':
+		imap_search = 'ALL'
+		suppress_notification = True
+	
 mailbox = imaplib.IMAP4_SSL(IMAP_SERVER)
 mailbox.login(IMAP_EMAIL_ADDRESS, IMAP_EMAIL_PASSWORD)
 mailbox.select()
-result, data = mailbox.uid('search', None, 'UNSEEN')
+result, data = mailbox.uid('search', None, imap_search)
 uid_list = data.pop().split(' ')
 
 # if there's no valid uid in the list, skip it
@@ -60,7 +94,7 @@ if uid_list[0] != '':
 		post_date = email_message['Date']
 		post_title = email_message['Subject']
 		post_slug = post_title.replace(' ', '_')
-		post_body = get_message_html(email_message)
+		#post_body = unpack_message_html(email_message, )
 		
 		# check for blog subdir
 		email_hash = hashlib.md5()
@@ -71,6 +105,7 @@ if uid_list[0] != '':
 		
 			# create directory for new blog
 			os.makedirs(blog_physical_path)
+			os.makedirs(os.path.join(blog_physical_path, 'assets'))
 			
 			# create the blog index
 			blog_index = open(blog_physical_path + '/index.html', 'a')
@@ -84,7 +119,8 @@ if uid_list[0] != '':
 			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
 			site_index.close()
 			
-			send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
+			if not suppress_notification:
+				send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
 			
 		post_physical_path = blog_physical_path + '/' + post_slug + '.html'
 		
@@ -95,9 +131,11 @@ if uid_list[0] != '':
 			blog_index.close()
 	
 		# generate post
+		post_body = unpack_message(uid, email_message, blog_physical_path)
 		post_file = open(post_physical_path, 'w')
 		post_file.write('<h3>%s</h3>' % post_title)
 		post_file.write(post_body)
 		post_file.close()
 		
-		send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
+		if not suppress_notification:
+			send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
