@@ -6,6 +6,8 @@ import hashlib
 import smtplib
 import sys
 import mimetypes
+import unicodedata
+import re
 from email.mime.text import MIMEText
 
 # config
@@ -94,7 +96,12 @@ if uid_list[0] != '':
 		post_author = email_address.split('@')[0]
 		post_date = email_message['Date']
 		post_title = email_message['Subject']
-		post_slug = post_title.replace(' ', '_')
+		
+		post_slug = unicodedata.normalize('NFKD', unicode(post_title))
+		post_slug = post_slug.encode('ascii', 'ignore').lower()
+		post_slug = re.sub(r'[^a-z0-9]+', '-', post_slug).strip('-')
+		post_slug = re.sub(r'[-]+', '-', post_slug)
+		#post_slug = post_title.replace(' ', '_')
 		#post_body = unpack_message_html(email_message, )
 		
 		# check for blog subdir
