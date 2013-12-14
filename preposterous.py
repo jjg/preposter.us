@@ -44,7 +44,7 @@ def unpack_message(uid, message, blog_dir):
 			email_body = part.get_payload(decode=True)
 			
 		# append images (this is a hack)
-		if filename.find('.jpg') > 0 || filename.find('.png') > 0 || filename.find('.gif') > 0:
+		if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0:
 			email_body = email_body + '<img src=\'assets/%s\'>' % filename
 	
 	return email_body
@@ -66,6 +66,7 @@ def send_notification(destination_email, subject, message):
 
 # get messages
 imap_search = 'UNSEEN'
+suppress_notification = False
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'rebuild':
 		imap_search = 'ALL'
