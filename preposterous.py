@@ -101,8 +101,6 @@ if uid_list[0] != '':
 		post_slug = post_slug.encode('ascii', 'ignore').lower()
 		post_slug = re.sub(r'[^a-z0-9]+', '-', post_slug).strip('-')
 		post_slug = re.sub(r'[-]+', '-', post_slug)
-		#post_slug = post_title.replace(' ', '_')
-		#post_body = unpack_message_html(email_message, )
 		
 		# check for blog subdir
 		email_hash = hashlib.md5()
