@@ -18,7 +18,7 @@ Preposterous requires Python (tested with 2.7, but probably works with any 2.x v
 ###Useage###
 To setup a Preposterous server, start by setting up an email address that the server will listen to (an address you'll be sending posts to), free gmail addresses work great for this.
 
-Next clone this repository and open up the preposterous.py file in your favorite editor.  In preposterous.cfg theres a couple configuration variables you'll need to setup for your site.
+Next clone this repository and copy preposterous.cfg.template to preposterous.cfg.  Using your favorite editor, open preposterous.cfg, theres a couple configuration variables you'll need to setup for your site.
 
 Next copy the index.html file into the directory you specified in the configuration as the web root.
 
