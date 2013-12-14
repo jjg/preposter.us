@@ -8,16 +8,20 @@ import sys
 import mimetypes
 import unicodedata
 import re
+import ConfigParser
 from email.mime.text import MIMEText
 
-# config
-SMTP_SERVER = ''
-SMTP_PORT = ''
-IMAP_SERVER = ''
-IMAP_EMAIL_ADDRESS = ''
-IMAP_EMAIL_PASSWORD = ''
-WEB_HOST = ''
-WEB_ROOT = ''
+# load config
+config = ConfigParser.RawConfigParser()
+config.read('preposterous.cfg')
+
+IMAP_SERVER = config.get('mailserver', 'imap_server')
+SMTP_SERVER = config.get('mailserver', 'smtp_server')
+SMTP_PORT = config.get('mailserver', 'smtp_port')
+EMAIL_ADDRESS = config.get('mailserver', 'email_address')
+EMAIL_PASSWORD = config.get('mailserver', 'email_password')
+WEB_HOST = config.get('webserver', 'web_hostname')
+WEB_ROOT = config.get('webserver', 'web_filesystem_root')
                 
 def unpack_message(uid, message, blog_dir):
 	email_body = None
@@ -55,15 +59,15 @@ def send_notification(destination_email, subject, message):
 	# assemble email
 	message = MIMEText(message)
 	message['Subject'] = subject
-	message['From'] = IMAP_EMAIL_ADDRESS
+	message['From'] = EMAIL_ADDRESS
 	message['To'] = destination_email
 	
 	# send
 	s = smtplib.SMTP(SMTP_SERVER + ':' + SMTP_PORT)
 	s.ehlo()
 	s.starttls()
-	s.login(IMAP_EMAIL_ADDRESS, IMAP_EMAIL_PASSWORD)
-	s.sendmail(IMAP_EMAIL_ADDRESS, destination_email, message.as_string())
+	s.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+	s.sendmail(EMAIL_ADDRESS, destination_email, message.as_string())
 	s.quit()
 
 # get messages
@@ -75,7 +79,7 @@ if len(sys.argv) > 1:
 		suppress_notification = True
 	
 mailbox = imaplib.IMAP4_SSL(IMAP_SERVER)
-mailbox.login(IMAP_EMAIL_ADDRESS, IMAP_EMAIL_PASSWORD)
+mailbox.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 mailbox.select()
 result, data = mailbox.uid('search', None, imap_search)
 uid_list = data.pop().split(' ')
