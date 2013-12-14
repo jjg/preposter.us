@@ -39,19 +39,34 @@ def unpack_message(uid, message, blog_dir):
 			
 		filename = '%s-%s' % (uid, filename)
 		
-		counter += 1
+		# only store files we know what to do with
+		store_file = False
 		
-		fp = open(os.path.join(blog_dir, 'assets', filename), 'wb')
-		fp.write(part.get_payload(decode=True))
-		fp.close()
+		# handle images
+		if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0:
+			store_file = True
+			email_body = email_body + '<img src=\'assets/%s\'>' % filename
+			
+		# TODO: handle video
+		if filename.find('.mov') > 0 or filename.find('.mp4') > 0 or filename.find('.ogg') > 0 :
+			store_file = True
+			email_body = email_body + '<video controls><source src=\'assets/%s\'></video>' % filename
+		
+		# TODO: handle audio
+		
+		if store_file:
+			counter += 1
+			fp = open(os.path.join(blog_dir, 'assets', filename), 'wb')
+			fp.write(part.get_payload(decode=True))
+			fp.close()
 		
 		# extract message body
 		if part.get_content_type() == 'text/html':
 			email_body = part.get_payload(decode=True)
 			
 		# append images (this is a hack)
-		if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0:
-			email_body = email_body + '<img src=\'assets/%s\'>' % filename
+		#if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0:
+		#	email_body = email_body + '<img src=\'assets/%s\'>' % filename
 	
 	return email_body
 
