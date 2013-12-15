@@ -140,9 +140,9 @@ if uid_list[0] != '':
 			blog_index.close()
 			
 			# update site index
-			site_index = open(WEB_ROOT + '/index.html', 'a')
-			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
-			site_index.close()
+			#site_index = open(WEB_ROOT + '/index.html', 'a')
+			#site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
+			#site_index.close()
 			
 			# update blog index partial
 			blog_index_partial = open(WEB_ROOT + '/blogs.html', 'a')

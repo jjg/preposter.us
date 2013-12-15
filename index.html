@@ -1,4 +1,32 @@
-<h1>Welcome to Preposterous!</h1>
-<p>Bask in the glory of our wonderful users:</p>
-
-<ul>
+<html>
+	<head>
+		<title>Preposterous</title>
+	</head>
+	<body>
+		<h1>Welcome to Preposterous!</h1>
+		<h2>These are the blogs:</h2>
+		
+		<div id="bloglistcontainer">
+			<ul id="bloglist"></ul>
+		</div>
+		
+		<script>
+			var serverProtocol = location.protocol;
+			var serverHost = location.hostname;
+			var serverPort = location.port;
+			var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
+			var blogListURL = serverURL + '/blogs.html';
+			
+			var blogListReq = new XMLHttpRequest();
+			blogListReq.onload = renderList;
+			blogListReq.open('GET', blogListURL, true);
+			blogListReq.send();
+			
+			function renderList(){
+				var blogs = this.responseText;
+				var bloglist = document.getElementById('bloglist');
+				bloglist.innerHTML = blogs;
+			}
+		</script>
+	</body>
+</html>
