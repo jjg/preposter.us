@@ -22,6 +22,7 @@ EMAIL_ADDRESS = config.get('mailserver', 'email_address')
 EMAIL_PASSWORD = config.get('mailserver', 'email_password')
 WEB_HOST = config.get('webserver', 'web_hostname')
 WEB_ROOT = config.get('webserver', 'web_filesystem_root')
+ADMIN_EMAIL = config.get('system', 'admin_email')
                 
 def unpack_message(uid, message, blog_dir):
 	email_body = None
@@ -177,3 +178,4 @@ if uid_list[0] != '':
 				
 		except:
 			print sys.exc_info()[0]
+			send_notification(ADMIN_EMAIL, 'error processing post', raw_email)
