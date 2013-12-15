@@ -93,6 +93,7 @@ imap_search = 'UNSEEN'
 suppress_notification = False
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'rebuild':
+		# TODO: purge web root directory
 		imap_search = 'ALL'
 		suppress_notification = True
 	
@@ -147,6 +148,11 @@ if uid_list[0] != '':
 			site_index.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
 			site_index.close()
 			
+			# update blog index partial
+			blog_index_partial = open(WEB_ROOT + '/blogs.html', 'a')
+			blog_index_partial.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
+			blog_index_partial.close()
+			
 			if not suppress_notification:
 				send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
 			
@@ -157,6 +163,12 @@ if uid_list[0] != '':
 			blog_index = open(blog_physical_path + '/index.html', 'a')
 			blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 			blog_index.close()
+			
+			# update post index partial
+			post_index_partial = open(blog_physical_path + '/posts.html', 'a')
+			post_index_partial.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
+			post_index_partial.close()
+			
 	
 		# generate post
 		post_body = unpack_message(uid, email_message, blog_physical_path)
