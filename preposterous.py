@@ -102,72 +102,78 @@ uid_list = data.pop().split(' ')
 # if there's no valid uid in the list, skip it
 if uid_list[0] != '':
 	for uid in uid_list:
+	
+		# global exception handlers like this are for bad programmers
+		try:
 		
-		# fetch message
-		latest_email_uid = uid
-		result, data = mailbox.uid('fetch', latest_email_uid, '(RFC822)')
-		raw_email = data[0][1]
-		email_message = email.message_from_string(raw_email)
-		email_from = email.utils.parseaddr(email_message['From'])
-		email_address = email_from[1]
-		
-		# assemble post components
-		post_author = email_address.split('@')[0]
-		post_date = email_message['Date']
-		post_title = email_message['Subject']
-		
-		post_slug = unicodedata.normalize('NFKD', unicode(post_title))
-		post_slug = post_slug.encode('ascii', 'ignore').lower()
-		post_slug = re.sub(r'[^a-z0-9]+', '-', post_slug).strip('-')
-		post_slug = re.sub(r'[-]+', '-', post_slug)
-		
-		# check for blog subdir
-		email_hash = hashlib.md5()
-		email_hash.update(email_address)
-		blog_directory = email_hash.hexdigest()
-		blog_physical_path = WEB_ROOT + '/' + blog_directory
-		if not os.path.exists(WEB_ROOT + '/' + blog_directory):
-		
-			# create directory for new blog
-			os.makedirs(blog_physical_path)
-			os.makedirs(os.path.join(blog_physical_path, 'assets'))
+			# fetch message
+			latest_email_uid = uid
+			result, data = mailbox.uid('fetch', latest_email_uid, '(RFC822)')
+			raw_email = data[0][1]
+			email_message = email.message_from_string(raw_email)
+			email_from = email.utils.parseaddr(email_message['From'])
+			email_address = email_from[1]
 			
-			# create blog post index
-			template = open('postindextemplate.html', 'r').read()
-			new_index = template
-			new_index = new_index.replace('{0}', post_author)
-			new_index = new_index.replace('{1}', blog_directory)
+			# assemble post components
+			post_author = email_address.split('@')[0]
+			post_date = email_message['Date']
+			post_title = email_message['Subject']
 			
-			blog_index = open(blog_physical_path + '/index.html', 'w')
-			blog_index.write(new_index)
-			blog_index.close()
+			post_slug = unicodedata.normalize('NFKD', unicode(post_title))
+			post_slug = post_slug.encode('ascii', 'ignore').lower()
+			post_slug = re.sub(r'[^a-z0-9]+', '-', post_slug).strip('-')
+			post_slug = re.sub(r'[-]+', '-', post_slug)
 			
-			# add new blog to site index
-			blog_index_partial = open(WEB_ROOT + '/blogs.html', 'a')
-			blog_index_partial.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
-			blog_index_partial.close()
+			# check for blog subdir
+			email_hash = hashlib.md5()
+			email_hash.update(email_address)
+			blog_directory = email_hash.hexdigest()
+			blog_physical_path = WEB_ROOT + '/' + blog_directory
+			if not os.path.exists(WEB_ROOT + '/' + blog_directory):
+			
+				# create directory for new blog
+				os.makedirs(blog_physical_path)
+				os.makedirs(os.path.join(blog_physical_path, 'assets'))
+				
+				# create blog post index
+				template = open('postindextemplate.html', 'r').read()
+				new_index = template
+				new_index = new_index.replace('{0}', post_author)
+				new_index = new_index.replace('{1}', blog_directory)
+				
+				blog_index = open(blog_physical_path + '/index.html', 'w')
+				blog_index.write(new_index)
+				blog_index.close()
+				
+				# add new blog to site index
+				blog_index_partial = open(WEB_ROOT + '/blogs.html', 'a')
+				blog_index_partial.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
+				blog_index_partial.close()
+				
+				if not suppress_notification:
+					send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
+				
+			post_physical_path = blog_physical_path + '/' + post_slug + '.html'
+			
+			# if necessary, update post index
+			if not os.path.exists(post_physical_path):
+				
+				# update post index partial
+				post_index_partial = open(blog_physical_path + '/posts.html', 'a')
+				post_index_partial.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
+				post_index_partial.close()
+		
+			# generate post
+			post_body = unpack_message(uid, email_message, blog_physical_path)
+			post_file = open(post_physical_path, 'w')
+			post_file.write('<html><head><title>%s</title></head><body>' % post_title)
+			post_file.write('<h3>%s</h3>' % post_title)
+			post_file.write(post_body)
+			post_file.write('</body></html>')
+			post_file.close()
 			
 			if not suppress_notification:
-				send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
-			
-		post_physical_path = blog_physical_path + '/' + post_slug + '.html'
-		
-		# if necessary, update post index
-		if not os.path.exists(post_physical_path):
-			
-			# update post index partial
-			post_index_partial = open(blog_physical_path + '/posts.html', 'a')
-			post_index_partial.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
-			post_index_partial.close()
-	
-		# generate post
-		post_body = unpack_message(uid, email_message, blog_physical_path)
-		post_file = open(post_physical_path, 'w')
-		post_file.write('<html><head><title>%s</title></head><body>' % post_title)
-		post_file.write('<h3>%s</h3>' % post_title)
-		post_file.write(post_body)
-		post_file.write('</body></html>')
-		post_file.close()
-		
-		if not suppress_notification:
-			send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
+				send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
+				
+		except:
+			print sys.exc_info()[0]
