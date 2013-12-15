@@ -1,0 +1,33 @@
+<!-- post index template -->
+<html>
+	<head>
+		<title>{0}'s Preposterous Blog</title>
+	</head>
+	<body>
+		<h1>{0}'s Preposterous Blog</h1>
+		<h2>Posts:</h2>
+		
+		<div id="postlistcontainer">
+			<ul id="postlist"></ul>
+		</div>
+		
+		<script>
+			var serverProtocol = location.protocol;
+			var serverHost = location.hostname;
+			var serverPort = location.port;
+			var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
+			var postListURL = serverURL + '/{1}/posts.html';
+			
+			var postListReq = new XMLHttpRequest();
+			postListReq.onload = renderList;
+			postListReq.open('GET', postListURL, true);
+			postListReq.send();
+			
+			function renderList(){
+				var posts = this.responseText;
+				var postList = document.getElementById('postlist');
+				postList.innerHTML = posts;
+			}
+		</script>
+	</body>
+</html>

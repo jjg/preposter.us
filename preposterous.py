@@ -133,10 +133,13 @@ if uid_list[0] != '':
 			os.makedirs(os.path.join(blog_physical_path, 'assets'))
 			
 			# create blog post index
-			blog_index = open(blog_physical_path + '/index.html', 'a')
-			blog_index.write('<html><head><title>preposterous blog of %s</title></head>' % post_author)
-			blog_index.write('<body><h1>%s\'s preposterous blog</h1>' % post_author)
-			blog_index.write('<h3>Posts</h3>\n<ul>')
+			template = open('postindextemplate.html', 'r').read()
+			new_index = template
+			new_index = new_index.replace('{0}', post_author)
+			new_index = new_index.replace('{1}', blog_directory)
+			
+			blog_index = open(blog_physical_path + '/index.html', 'w')
+			blog_index.write(new_index)
 			blog_index.close()
 			
 			# add new blog to site index
@@ -151,9 +154,6 @@ if uid_list[0] != '':
 		
 		# if necessary, update post index
 		if not os.path.exists(post_physical_path):
-			blog_index = open(blog_physical_path + '/index.html', 'a')
-			blog_index.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
-			blog_index.close()
 			
 			# update post index partial
 			post_index_partial = open(blog_physical_path + '/posts.html', 'a')
