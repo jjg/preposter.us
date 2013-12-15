@@ -164,7 +164,6 @@ if uid_list[0] != '':
 			post_index_partial = open(blog_physical_path + '/posts.html', 'a')
 			post_index_partial.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 			post_index_partial.close()
-			
 	
 		# generate post
 		post_body = unpack_message(uid, email_message, blog_physical_path)
