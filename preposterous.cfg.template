@@ -8,3 +8,6 @@ email_password:
 [webserver]
 web_hostname: 
 web_filesystem_root: 
+
+[system]
+admin_email:
