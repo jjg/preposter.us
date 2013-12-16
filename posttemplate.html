@@ -2,6 +2,19 @@
 	<head>
 		<title>{0}</title>
 		<style>
+			h1 a, h1 a:link, h1 a:visited, h1 a:active {
+				text-decoration: none;
+				color:black;
+			}
+			
+			h2 {
+				color:gray;
+			}
+
+			a, a:link, a:visited, a:active {
+				color:red;
+			}
+			
 			.header{
 				font-family: Geneva;
 				margin: 25px;
@@ -20,13 +33,13 @@
 				letter-spacing: 3;
 				font-size: small;
 				text-align: center;
-				margin-top: 40px;
+				margin-top: 60px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="header">
-			<h1>{1}'s Preposterous Blog</h1>
+			<h1><a href="./">{1}'s Preposterous Blog</a></h1>
 			<h2>{0}</h2>
 		</div>
 		<div class="content">
@@ -34,7 +47,7 @@
 		</div>
 		<div class="footer">
 			copyright 2013, {1}</br>
-			powered by preposterous
+			powered by <a style="text-decoration: none" href="https://github.com/jjg/preposterous">preposterous</a>
 		</div>
 	</body>
 </html>
