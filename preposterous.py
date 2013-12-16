@@ -178,4 +178,4 @@ if uid_list[0] != '':
 				
 		except:
 			print sys.exc_info()[0]
-			send_notification(ADMIN_EMAIL, 'error processing post', raw_email)
+			#send_notification(ADMIN_EMAIL, 'error processing post', raw_email)
