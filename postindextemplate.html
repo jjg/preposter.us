@@ -1,13 +1,42 @@
 <html>
 	<head>
 		<title>{0}'s Preposterous Blog</title>
+		<style>
+			.header{
+				font-family: Geneva;
+				margin: 25px;
+			}
+			.content{
+				font-family: Palatino;
+				letter-spacing: 1;
+				line-height: 1.8;
+				margin-top: 25px;
+				margin-left: 40px;
+				margin-right: 40px;
+				margin-bottom: 25px;
+			}
+			.footer{
+				font-family: Geneva;
+				letter-spacing: 3;
+				font-size: small;
+				text-align: center;
+				margin-top: 40px;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>{0}'s Preposterous Blog</h1>
-		<h2>Posts:</h2>
-		
-		<div id="postlistcontainer">
-			<ul id="postlist"></ul>
+		<div class="header">
+			<h1>{0}'s Preposterous Blog</h1>
+			<h2>Posts:</h2>
+		</div>
+		<div class="content">
+			<div id="postlistcontainer">
+				<ul id="postlist"></ul>
+			</div>
+		</div>
+		<div class="footer">
+			copyright 2013, {0}</br>
+			powered by preposterous
 		</div>
 		
 		<script>
