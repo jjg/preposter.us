@@ -27,11 +27,21 @@ WEB_ROOT = config.get('webserver', 'web_filesystem_root')
 ADMIN_EMAIL = config.get('system', 'admin_email')
                 
 def unpack_message(uid, message, blog_dir):
-	email_body = None
+	email_body = ''
+	html_body = None
+	text_body = None
 	counter = 1
 	for part in message.walk():
 		if part.get_content_maintype() == 'multipart':
 			continue
+
+		# extract message body
+		if part.get_content_type() == 'text/html':
+			html_body = part.get_payload(decode=True)
+			
+		if part.get_content_type() == 'text/plain':
+			text_body = part.get_payload(decode=True)
+			
 		filename = part.get_filename()
 		if not filename:
 			ext = mimetypes.guess_extension(part.get_content_type())
@@ -44,6 +54,9 @@ def unpack_message(uid, message, blog_dir):
 		
 		# only store files we know what to do with
 		store_file = False
+		
+		# caps just makes comparisons harder
+		filename = filename.lower()
 		
 		# handle images
 		if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0:
@@ -65,10 +78,11 @@ def unpack_message(uid, message, blog_dir):
 			fp = open(os.path.join(blog_dir, 'assets', filename), 'wb')
 			fp.write(part.get_payload(decode=True))
 			fp.close()
-		
-		# extract message body
-		if part.get_content_type() == 'text/html':
-			email_body = part.get_payload(decode=True)
+			
+	if html_body:
+		email_body = html_body + email_body
+	else:
+		email_body = text_body + email_body
 	
 	return email_body
 
@@ -113,6 +127,7 @@ if uid_list[0] != '':
 			latest_email_uid = uid
 			result, data = mailbox.uid('fetch', latest_email_uid, '(RFC822)')
 			raw_email = data[0][1]
+			
 			email_message = email.message_from_string(raw_email)
 			email_from = email.utils.parseaddr(email_message['From'])
 			email_address = email_from[1]
