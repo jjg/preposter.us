@@ -9,6 +9,8 @@ import mimetypes
 import unicodedata
 import re
 import ConfigParser
+import shutil
+import traceback
 from email.mime.text import MIMEText
 
 # load config
@@ -90,7 +92,7 @@ imap_search = 'UNSEEN'
 suppress_notification = False
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'rebuild':
-		# TODO: purge web root directory
+		shutil.copy('index.html', WEB_ROOT)
 		imap_search = 'ALL'
 		suppress_notification = True
 	
@@ -177,5 +179,7 @@ if uid_list[0] != '':
 				send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
 				
 		except:
-			print sys.exc_info()[0]
-			#send_notification(ADMIN_EMAIL, 'error processing post', raw_email)
+			print '****************************************'
+			print traceback.format_exc()
+			print raw_email
+			print '****************************************'
