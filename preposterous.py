@@ -192,10 +192,6 @@ if uid_list[0] != '':
 			
 			post_file = open(post_physical_path, 'w')
 			post_file.write(new_post)
-			#post_file.write('<html><head><title>%s</title></head><body>' % post_title)
-			#post_file.write('<h3>%s</h3>' % post_title)
-			#post_file.write(post_body)
-			#post_file.write('</body></html>')
 			post_file.close()
 			
 			if not suppress_notification:
