@@ -6,7 +6,7 @@ Over time it became bloated, but it's heart was still in the right place.  Then 
 Preposterous is an attempt to ressurect the heart of Posterous, in about 150 lines of Python.
 
 ###Status###
-Visit http://preposterous.gullicksonlaboratories.com/63e0a682e09fe7eae9eeb857c42d2ccb/ To follow along with Preposterous's development and testing.
+Visit http://preposterousme.com/63e0a682e09fe7eae9eeb857c42d2ccb/ To follow along with Preposterous's development and testing.
 
 ###How it works###
 To start a new blog, send a post via email to preposterous's email address.  Preposterous will read the email, create a new blog and post your initial entry.  When you want to create a new post, send another email.  To edit/update an existing post, send another email with a subject line that is identical to the title of the post you want to update.  To delete a post, send an email with an identical title that contains no text in the body.
