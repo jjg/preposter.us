@@ -28,10 +28,11 @@ ADMIN_EMAIL = config.get('system', 'admin_email')
                 
 def unpack_message(uid, message, blog_dir):
 	email_body = ''
-	html_body = None
-	text_body = None
+	html_body = ''
+	text_body = ''
 	counter = 1
 	for part in message.walk():
+		
 		if part.get_content_maintype() == 'multipart':
 			continue
 
@@ -40,7 +41,7 @@ def unpack_message(uid, message, blog_dir):
 			html_body = part.get_payload(decode=True)
 			
 		if part.get_content_type() == 'text/plain':
-			text_body = part.get_payload(decode=True)
+			text_body += part.get_payload(decode=True)
 			
 		filename = part.get_filename()
 		if not filename:
@@ -61,7 +62,16 @@ def unpack_message(uid, message, blog_dir):
 		# handle images
 		if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0:
 			store_file = True
-			email_body = email_body + '<img src=\'assets/%s\'>' % filename
+			
+			if part.get('Content-ID'):
+				cid = 'cid:%s' % part.get('Content-ID')[1:-1]
+				# if we can find the file embedded, update the link
+				if html_body.find(cid) > -1:
+					# re-write CID img tag to use stored filename
+					html_body = html_body.replace(cid, 'assets/%s' % filename)
+			else:
+				# otherwise, just embed the file
+				email_body = email_body + '<img src=\'assets/%s\'>' % filename
 			
 		# handle video
 		if filename.find('.mov') > 0 or filename.find('.mp4') > 0 or filename.find('.ogg') > 0 :
@@ -79,6 +89,12 @@ def unpack_message(uid, message, blog_dir):
 			fp.write(part.get_payload(decode=True))
 			fp.close()
 			
+	# debug
+	print('*** html_body ***')
+	print(html_body)
+	print('*** text_body ***')
+	print(text_body)
+	
 	if html_body:
 		email_body = html_body + email_body
 	else:
@@ -200,5 +216,5 @@ if uid_list[0] != '':
 		except:
 			print '****************************************'
 			print traceback.format_exc()
-			print raw_email
+			#print raw_email
 			print '****************************************'
