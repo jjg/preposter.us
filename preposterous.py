@@ -88,12 +88,6 @@ def unpack_message(uid, message, blog_dir):
 			fp = open(os.path.join(blog_dir, 'assets', filename), 'wb')
 			fp.write(part.get_payload(decode=True))
 			fp.close()
-			
-	# debug
-	print('*** html_body ***')
-	print(html_body)
-	print('*** text_body ***')
-	print(text_body)
 	
 	if html_body:
 		email_body = html_body + email_body
@@ -216,5 +210,5 @@ if uid_list[0] != '':
 		except:
 			print '****************************************'
 			print traceback.format_exc()
-			#print raw_email
+			print raw_email
 			print '****************************************'
