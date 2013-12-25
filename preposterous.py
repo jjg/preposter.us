@@ -158,6 +158,7 @@ if uid_list[0] != '':
 			email_hash.update(email_address)
 			blog_directory = email_hash.hexdigest()
 			blog_physical_path = WEB_ROOT + '/' + blog_directory
+			humane_blog_name = humanhash.humanize(blog_directory)
 			if not os.path.exists(WEB_ROOT + '/' + blog_directory):
 			
 				# create directory for new blog
@@ -165,7 +166,6 @@ if uid_list[0] != '':
 				os.makedirs(os.path.join(blog_physical_path, 'assets'))
 				
 				# create human-readable link to blog directory
-				humane_blog_name = humanhash.humanize(blog_directory)
 				os.symlink(blog_directory, os.path.join(WEB_ROOT, humane_blog_name))
 				
 				# create blog post index
