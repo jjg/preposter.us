@@ -11,6 +11,7 @@ import re
 import ConfigParser
 import shutil
 import traceback
+import humanhash
 from email.mime.text import MIMEText
 
 # load config
@@ -163,6 +164,10 @@ if uid_list[0] != '':
 				os.makedirs(blog_physical_path)
 				os.makedirs(os.path.join(blog_physical_path, 'assets'))
 				
+				# create human-readable link to blog directory
+				humane_blog_name = humanhash.humanize(blog_directory)
+				os.symlink(blog_directory, os.path.join(WEB_ROOT, humane_blog_name))
+				
 				# create blog post index
 				template = open('postindextemplate.html', 'r').read()
 				new_index = template
@@ -175,11 +180,11 @@ if uid_list[0] != '':
 				
 				# add new blog to site index
 				blog_index_partial = open(WEB_ROOT + '/blogs.html', 'a')
-				blog_index_partial.write('<li><a href=\'%s\'>%s</a></li>\n' % (blog_directory, post_author))
+				blog_index_partial.write('<li><a href=\'%s\'>%s</a></li>\n' % (humane_blog_name, post_author))
 				blog_index_partial.close()
 				
 				if not suppress_notification:
-					send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, blog_directory))
+					send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, humane_blog_name))
 				
 			post_physical_path = blog_physical_path + '/' + post_slug + '.html'
 			
@@ -205,7 +210,7 @@ if uid_list[0] != '':
 			post_file.close()
 			
 			if not suppress_notification:
-				send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, blog_directory, post_slug))
+				send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, humane_blog_name, post_slug))
 				
 		except:
 			print '****************************************'
