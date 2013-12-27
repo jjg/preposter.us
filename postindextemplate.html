@@ -53,7 +53,7 @@
 			var serverHost = location.hostname;
 			var serverPort = location.port;
 			var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
-			var postListURL = serverURL + '/{1}/posts.html';
+			var postListURL = serverURL + '/{1}/posts.json';
 			
 			var postListReq = new XMLHttpRequest();
 			postListReq.onload = renderList;
@@ -61,9 +61,22 @@
 			postListReq.send();
 			
 			function renderList(){
-				var posts = this.responseText;
+
+				var posts = JSON.parse(this.responseText).posts;
+				
+				posts.sort(function(a,b) { return Date.parse(b.post.date) - Date.parse(a.post.date) } )
+				
+				var postListHTML = '';
+				for(var i=0;i<posts.length;i++){
+				
+					var postDate = new Date(posts[i].post.date);
+					var dateString = (postDate.getMonth() + 1) + '/' + postDate.getDate() + '/' + postDate.getFullYear();
+					
+					postListHTML = postListHTML + '<li>' + dateString + '&nbsp;<a href="' + posts[i].post.url + '">' + posts[i].post.title + '</a></li>\n';
+				}
+				
 				var postList = document.getElementById('postlist');
-				postList.innerHTML = posts;
+				postList.innerHTML = postListHTML;
 			}
 		</script>
 	</body>
