@@ -12,6 +12,7 @@ import ConfigParser
 import shutil
 import traceback
 import humanhash
+import json
 from email.mime.text import MIMEText
 
 # load config
@@ -26,7 +27,14 @@ EMAIL_PASSWORD = config.get('mailserver', 'email_password')
 WEB_HOST = config.get('webserver', 'web_hostname')
 WEB_ROOT = config.get('webserver', 'web_filesystem_root')
 ADMIN_EMAIL = config.get('system', 'admin_email')
-                
+           
+class Post(object):
+	title = ''
+	slug = ''
+	author = ''
+	date = ''
+	url = ''
+	     
 def unpack_message(uid, message, blog_dir):
 	email_body = ''
 	html_body = ''
@@ -195,6 +203,32 @@ if uid_list[0] != '':
 				post_index_partial = open(blog_physical_path + '/posts.html', 'a')
 				post_index_partial.write('<li><a href=\'%s.html\'>%s</a> - %s</li>' % (post_slug, post_title, post_date))
 				post_index_partial.close()
+				
+				# update post index json
+				post = Post()
+				post.title = post_title
+				post.slug = post_slug
+				post.author = post_author
+				post.date = post_date
+				post.url = 'http://' + WEB_HOST + '/' + humane_blog_name + '/' + post_slug + '.html'
+				
+				# debug
+				#print json.dumps(post.__dict__)
+				
+				post_index_json = open(blog_physical_path + '/posts.json', 'r')
+				post_index_obj = json.loads(post_index_json.read())
+				
+				# debug
+				#print post_index_obj
+				
+				post_index_json.close()
+				
+				# TODO: find a more elegant way to do this than .__dict__
+				post_index_obj['posts'].append({'post':post.__dict__})
+				post_index_json = open(blog_physical_path + '/posts.json', 'w')
+				post_index_json.write(json.dumps(post_index_obj))
+				post_index_json.close()
+				
 		
 			# generate post
 			post_body = unpack_message(uid, email_message, blog_physical_path)
