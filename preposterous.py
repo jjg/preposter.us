@@ -212,20 +212,17 @@ if uid_list[0] != '':
 				post.date = post_date
 				post.url = 'http://' + WEB_HOST + '/' + humane_blog_name + '/' + post_slug + '.html'
 				
-				# debug
-				#print json.dumps(post.__dict__)
-				
-				post_index_json = open(blog_physical_path + '/posts.json', 'r')
-				post_index_obj = json.loads(post_index_json.read())
-				
-				# debug
-				#print post_index_obj
-				
-				post_index_json.close()
+				# create a new index or update an existing one
+				json_index_physical_path = blog_physical_path + '/posts.json'
+				post_index_obj = {'posts':[]}
+				if os.path.exists(json_index_physical_path):
+					post_index_json = open(json_index_physical_path, 'r')
+					post_index_obj = json.loads(post_index_json.read())
+					post_index_json.close()
 				
 				# TODO: find a more elegant way to do this than .__dict__
 				post_index_obj['posts'].append({'post':post.__dict__})
-				post_index_json = open(blog_physical_path + '/posts.json', 'w')
+				post_index_json = open(json_index_physical_path, 'w')
 				post_index_json.write(json.dumps(post_index_obj))
 				post_index_json.close()
 				
