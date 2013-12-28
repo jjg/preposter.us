@@ -13,6 +13,7 @@ import shutil
 import traceback
 import humanhash
 import json
+import xml.etree.ElementTree as ET
 from email.mime.text import MIMEText
 
 # load config
@@ -176,13 +177,24 @@ if uid_list[0] != '':
 				# create human-readable link to blog directory
 				os.symlink(blog_directory, os.path.join(WEB_ROOT, humane_blog_name))
 				
-				# create blog post index
+				# create html blog post index
 				template = open('postindextemplate.html', 'r').read()
 				new_index = template
 				new_index = new_index.replace('{0}', post_author)
 				new_index = new_index.replace('{1}', blog_directory)
 				
 				blog_index = open(blog_physical_path + '/index.html', 'w')
+				blog_index.write(new_index)
+				blog_index.close()
+				
+				# create rss blog post index
+				template = open('postrssindextemplate.xml', 'r').read()
+				new_index = template
+				new_index = new_index.replace('{0}', '%s\'s Preposterous Blog' % post_author)
+				new_index = new_index.replace('{1}', 'http://%s/%s' % (WEB_HOST, humane_blog_name))
+				new_index = new_index.replace('{2}', '%s\'s blog on preposterousme.com' % post_author)
+				
+				blog_index = open(blog_physical_path + '/index.xml', 'w')
 				blog_index.write(new_index)
 				blog_index.close()
 				
@@ -225,6 +237,27 @@ if uid_list[0] != '':
 				post_index_json = open(json_index_physical_path, 'w')
 				post_index_json.write(json.dumps(post_index_obj))
 				post_index_json.close()
+				
+				# update rss feed
+				rss_physical_path = blog_physical_path + '/index.xml'
+				tree = ET.parse(rss_physical_path)
+				root = tree.getroot()
+				
+				# add new post
+				channel = root.find('channel')
+				item = ET.SubElement(channel, 'item')
+				item_title = ET.SubElement(item, 'title')
+				item_link = ET.SubElement(item, 'link')
+				item_description = ET.SubElement(item, 'description')
+				item_pub_date = ET.SubElement(item, 'pubDate')
+				
+				item_title.text = post.title
+				item_link.text = post.url
+				item_description.text = 'a post about %s by %s' % (post.title, post.author)
+				item_pub_date.text = post.date
+				
+				# save changes
+				tree.write(rss_physical_path)
 				
 		
 			# generate post
