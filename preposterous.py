@@ -248,13 +248,15 @@ if uid_list[0] != '':
 				item = ET.SubElement(channel, 'item')
 				item_title = ET.SubElement(item, 'title')
 				item_link = ET.SubElement(item, 'link')
-				item_description = ET.SubElement(item, 'description')
+				item_guid = ET.SubElement(item, 'guid')
 				item_pub_date = ET.SubElement(item, 'pubDate')
+				item_description = ET.SubElement(item, 'description')
 				
 				item_title.text = post.title
 				item_link.text = post.url
-				item_description.text = 'a post about %s by %s' % (post.title, post.author)
+				item_guid.text = post.url
 				item_pub_date.text = post.date
+				item_description.text = 'a post about %s by %s' % (post.title, post.author)
 				
 				# save changes
 				tree.write(rss_physical_path)
