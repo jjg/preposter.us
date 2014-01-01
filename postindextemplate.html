@@ -52,8 +52,9 @@
 			var serverProtocol = location.protocol;
 			var serverHost = location.hostname;
 			var serverPort = location.port;
-			var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
-			var postListURL = serverURL + '/{1}/posts.json';
+			//var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
+			//var postListURL = serverURL + '/{1}/posts.json';
+			var postListURL = 'posts.json';
 			
 			var postListReq = new XMLHttpRequest();
 			postListReq.onload = renderList;
