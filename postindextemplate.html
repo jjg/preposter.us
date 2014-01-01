@@ -73,7 +73,7 @@
 					var postDate = new Date(posts[i].post.date);
 					var dateString = (postDate.getMonth() + 1) + '/' + postDate.getDate() + '/' + postDate.getFullYear();
 					
-					postListHTML = postListHTML + '<li>' + dateString + '&nbsp;<a href="' + posts[i].post.url + '">' + posts[i].post.title + '</a></li>\n';
+					postListHTML = postListHTML + '<li>' + dateString + '&nbsp;<a href="' + posts[i].post.slug + '.html">' + posts[i].post.title + '</a></li>\n';
 				}
 				
 				var postList = document.getElementById('postlist');
