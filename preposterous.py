@@ -194,7 +194,7 @@ if uid_list[0] != '':
 				new_index = new_index.replace('{1}', 'http://%s/%s' % (WEB_HOST, humane_blog_name))
 				new_index = new_index.replace('{2}', '%s\'s blog on preposterousme.com' % post_author)
 				
-				blog_index = open(blog_physical_path + '/index.xml', 'w')
+				blog_index = open(blog_physical_path + '/rss.xml', 'w')
 				blog_index.write(new_index)
 				blog_index.close()
 				
@@ -239,7 +239,7 @@ if uid_list[0] != '':
 				post_index_json.close()
 				
 				# update rss feed
-				rss_physical_path = blog_physical_path + '/index.xml'
+				rss_physical_path = blog_physical_path + '/rss.xml'
 				tree = ET.parse(rss_physical_path)
 				root = tree.getroot()
 				
