@@ -81,7 +81,7 @@ def unpack_message(uid, message, blog_dir):
 					html_body = html_body.replace(cid, 'assets/%s' % filename)
 			else:
 				# otherwise, just embed the file
-				email_body = email_body + '<img src=\'assets/%s\'>' % filename
+				email_body = email_body + '<div class=\'holder\'><img src=\'assets/%s\'></div>' % filename
 			
 		# handle video
 		if filename.find('.mov') > 0 or filename.find('.mp4') > 0 or filename.find('.ogg') > 0 :
