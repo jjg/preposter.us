@@ -70,7 +70,7 @@ def unpack_message(uid, message, blog_dir):
 		filename = filename.lower()
 		
 		# handle images
-		if filename.find('.jpg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0 or filename.find('.pdf') > 0:
+		if filename.find('.jpg') > 0 or filename.find('.jpeg') > 0 or filename.find('.png') > 0 or filename.find('.gif') > 0 or filename.find('.pdf') > 0:
 			store_file = True
 			
 			if part.get('Content-ID'):
