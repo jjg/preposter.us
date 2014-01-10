@@ -14,7 +14,7 @@ import traceback
 import humanhash
 import json
 import xml.etree.ElementTree as ET
-import dateutil
+#import dateutil
 from email.mime.text import MIMEText
 
 # load config
