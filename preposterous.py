@@ -104,7 +104,7 @@ def unpack_message(uid, message, blog_dir):
 		email_body = html_body + email_body
 	else:
 		email_body = text_body + email_body
-	
+
 	return email_body
 
 def send_notification(destination_email, subject, message):
