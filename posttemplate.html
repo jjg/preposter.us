@@ -16,30 +16,44 @@
 			a, a:link, a:visited, a:active {
 				color:red;
 			}
-      .wrapper{
-        width: 960px;
-        margin: auto;
-      }
-      .header{
-        font-family: florencesans_shadedregular;
+
+   		   .wrapper{
+				width: 960px;
+				margin: auto;
+			}
+
+			.header{
+				font-family: florencesans_shadedregular;
 				font-size:42px;
-        margin-top: 25px;
-        margin-bottom:50px;
-      }
-      .content{
-        font-family: florencesansregular;
-        letter-spacing: 1;
-        line-height: 1.8;
-        width: 593px;
-        float: left;
-      }
-      .sidebar{
-        font-family: florencesansregular;
+				margin-top: 25px;
+				margin-bottom:50px;
+			}
+
+			.content{
+				font-family: florencesansregular;
+				letter-spacing: 1;
+				line-height: 1.8;
+				width: 593px;
+				padding-bottom:50px;
+				float: left;
+			}
+
+			.sidebar{
+				font-family: florencesansregular;
 				font-size:28px;
 				color: gray;
-        width: 367px;
-        float: left;
-      }
+				width: 367px;
+				text-align: left;
+				float: left;
+			}
+
+            .attribution{
+                font-family: florencesansregular;
+                letter-spacing: 3;
+				line-height:2;
+                font-size: small;
+            }
+
 			.footer{
 				font-family: florencesansregular;
 				letter-spacing: 3;
@@ -47,6 +61,7 @@
 				text-align: center;
 				margin-top: 60px;
 			}
+
 			.holder {   
 			  width: auto;
 			  display: inline-block;    
@@ -60,19 +75,25 @@
 	</head>
 	<body>
 		<div class="wrapper">
-		<div class="header">
-			<a style="text-decoration:none;color:black;" href="./">{1}'s Preposterous Blog</a>
+			<div class="header">
+				<a style="text-decoration:none;color:black;" href="./">{1}'s Preposterous Blog</a>
+			</div>
+			<div class="sidebar">
+				<p>{0} {3}</p>
+		        <div class="attribution">
+					<p>copyright 2014, {1}</br>
+					powered by <a style="text-decoration: none" href="https://github.com/jjg/preposterous">preposterous</a></p>
+				</div>
+			</div>
+			<div class="content">
+				{2}
+			</div>
 		</div>
-		<div class="sidebar">
-			<div style="padding-right:25px;padding-left:10px;">{0} {3}</div>
-		</div>
-		<div class="content">
-			{2}
-		</div>
+		<!-- removing footer until it can cooperate
 		<div class="footer">
 			copyright 2014, {1}</br>
 			powered by <a style="text-decoration: none" href="https://github.com/jjg/preposterous">preposterous</a>
 		</div>
-		</div>
+		-->
 	</body>
 </html>
