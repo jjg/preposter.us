@@ -128,7 +128,7 @@ suppress_notification = False
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'rebuild':
 		shutil.copy('index.html', WEB_ROOT)
-		#shutil.copytree('css', WEB_ROOT + '/css')
+		shutil.copytree('css', WEB_ROOT + '/css')
 		imap_search = 'ALL'
 		suppress_notification = True
 	
