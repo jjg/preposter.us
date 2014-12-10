@@ -128,6 +128,7 @@ suppress_notification = False
 if len(sys.argv) > 1:
 	if sys.argv[1] == 'rebuild':
 		shutil.copy('index.html', WEB_ROOT)
+		#shutil.copytree('css', WEB_ROOT + '/css')
 		imap_search = 'ALL'
 		suppress_notification = True
 	
@@ -174,7 +175,10 @@ if uid_list[0] != '':
 				# create directory for new blog
 				os.makedirs(blog_physical_path)
 				os.makedirs(os.path.join(blog_physical_path, 'assets'))
-				
+			
+				# copy over the default stylsheet
+				shutil.copytree('css', blog_physical_path + '/css')
+	
 				# create human-readable link to blog directory
 				os.symlink(blog_directory, os.path.join(WEB_ROOT, humane_blog_name))
 				

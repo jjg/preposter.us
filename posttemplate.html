@@ -2,6 +2,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<title>{0}</title>
+		<link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
 		<style>
 			h1 a, h1 a:link, h1 a:visited, h1 a:active {
 				text-decoration: none;
@@ -15,22 +16,32 @@
 			a, a:link, a:visited, a:active {
 				color:red;
 			}
-			
-			.header{
-				font-family: Geneva;
-				margin: 25px;
-			}
-			.content{
-				font-family: Palatino;
-				letter-spacing: 1;
-				line-height: 1.8;
-				margin-top: 25px;
-				margin-left: 40px;
-				margin-right: 40px;
-				margin-bottom: 25px;
-			}
+      .wrapper{
+        width: 960px;
+        margin: auto;
+      }
+      .header{
+        font-family: florencesans_shadedregular;
+				font-size:42px;
+        margin-top: 25px;
+        margin-bottom:50px;
+      }
+      .content{
+        font-family: florencesansregular;
+        letter-spacing: 1;
+        line-height: 1.8;
+        width: 593px;
+        float: left;
+      }
+      .sidebar{
+        font-family: florencesansregular;
+				font-size:28px;
+				color: gray;
+        width: 367px;
+        float: left;
+      }
 			.footer{
-				font-family: Geneva;
+				font-family: florencesansregular;
 				letter-spacing: 3;
 				font-size: small;
 				text-align: center;
@@ -48,9 +59,12 @@
 		</style>
 	</head>
 	<body>
+		<div class="wrapper">
 		<div class="header">
-			<h1><a href="./">{1}'s Preposterous Blog</a></h1>
-			<h2>{0} - {3}</h2>
+			<a style="text-decoration:none;color:black;" href="./">{1}'s Preposterous Blog</a>
+		</div>
+		<div class="sidebar">
+			<div style="padding-right:25px;padding-left:10px;">{0} {3}</div>
 		</div>
 		<div class="content">
 			{2}
@@ -58,6 +72,7 @@
 		<div class="footer">
 			copyright 2014, {1}</br>
 			powered by <a style="text-decoration: none" href="https://github.com/jjg/preposterous">preposterous</a>
+		</div>
 		</div>
 	</body>
 </html>
