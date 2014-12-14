@@ -19,7 +19,7 @@ from email.mime.text import MIMEText
 
 # load config
 config = ConfigParser.RawConfigParser()
-config.read('preposterous.cfg')
+config.read('preposter.us.cfg')
 
 IMAP_SERVER = config.get('mailserver', 'imap_server')
 SMTP_SERVER = config.get('mailserver', 'smtp_server')
@@ -195,9 +195,9 @@ if uid_list[0] != '':
 				# create rss blog post index
 				template = open('postrssindextemplate.xml', 'r').read()
 				new_index = template
-				new_index = new_index.replace('{0}', '%s\'s Preposterous Blog' % post_author)
+				new_index = new_index.replace('{0}', '%s\'s Preposter.us Blog' % post_author)
 				new_index = new_index.replace('{1}', 'http://%s/%s' % (WEB_HOST, humane_blog_name))
-				new_index = new_index.replace('{2}', '%s\'s blog on preposterousme.com' % post_author)
+				new_index = new_index.replace('{2}', '%s\'s blog on preposter.us' % post_author)
 				
 				blog_index = open(blog_physical_path + '/rss.xml', 'w')
 				blog_index.write(new_index)
@@ -209,7 +209,7 @@ if uid_list[0] != '':
 				blog_index_partial.close()
 				
 				if not suppress_notification:
-					send_notification(email_address, 'Your new Preposterous blog is ready!', 'You just created a Preposterous blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposterous by visiting the project repository at https://github.com/jjg/preposterous' % (WEB_HOST, humane_blog_name))
+					send_notification(email_address, 'Your new Preposter.us blog is ready!', 'You just created a Preposter.us blog, a list of your posts can be found here: http://%s/%s .  Find out more about Preposter.us by visiting the project repository at https://github.com/jjg/preposter.us' % (WEB_HOST, humane_blog_name))
 				
 			post_physical_path = blog_physical_path + '/' + post_slug + '.html'
 			
@@ -282,7 +282,7 @@ if uid_list[0] != '':
 			post_file.close()
 			
 			if not suppress_notification:
-				send_notification(email_address, 'Preposterous Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, humane_blog_name, post_slug))
+				send_notification(email_address, 'Preposter.us Post Posted!', 'Your post \"%s\" has been posted, you can view it here: http://%s/%s/%s.html' % (post_title, WEB_HOST, humane_blog_name, post_slug))
 				
 		except:
 			print '****************************************'
