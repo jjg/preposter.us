@@ -49,6 +49,7 @@ def unpack_message(uid, message, blog_dir):
 
 		# extract message body
 		if part.get_content_type() == 'text/html':
+            # TODO: remove any containing head/body tags
 			html_body = part.get_payload(decode=True)
 			
 		if part.get_content_type() == 'text/plain':
@@ -275,7 +276,8 @@ if uid_list[0] != '':
 			new_post = new_post.replace('{0}', post_title)
 			new_post = new_post.replace('{1}', post_author)
 			new_post = new_post.replace('{2}', post_body)
-			new_post = new_post.replace('{3}', '')
+			# TODO: format this date to something prettier
+			new_post = new_post.replace('{3}', post_date)
 			
 			post_file = open(post_physical_path, 'w')
 			post_file.write(new_post)

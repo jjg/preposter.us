@@ -1,56 +1,32 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>{0}'s Preposter.us Blog</title>
-		<link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
-		<style>
-		
-			h2 {
-				color:gray;
-			}
-			
-			a, a:link, a:visited, a:active {
-				color:black;
-			}
-			
-			.header{
-				font-family: florencesans_shadedregular;
-				font-size:42px;
-				text-align:center;
-				margin: 25px;
-			}
-			.content{
-				font-family: florencesansregular;
-				letter-spacing: 1;
-				line-height: 1.8;
-				margin-top: 25px;
-				margin-left: 40px;
-				margin-right: 40px;
-				margin-bottom: 25px;
-			}
-			.footer{
-				font-family: florencesansregular;
-				letter-spacing: 3;
-				font-size: small;
-				text-align: center;
-				margin-top: 60px;
-			}
-		</style>
+		<meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+        <link rel="stylesheet" href="css/reset.css" media="all" />
+        <link rel="stylesheet" href="css/single-col.css" media="all" />
 	</head>
 	<body>
-		<div class="header">
-			{0}'s Preposter.us Blog
-		</div>
-		<div class="content">
-			<h2>Posts</h2>
-			<div id="postlistcontainer">
-				<ul id="postlist"></ul>
-			</div>
-		</div>
-		<div class="footer">
-			copyright 2019, {0}</br>
-			powered by <a style="color: red; text-decoration: none" href="https://codeberg.org/jjg/preposter.us">preposter.us</a>
-		</div>
-		
+        <section>
+            <header>
+                <h1><span>{0}'s</span> Preposter.us Blog</h1>
+                <h2><span>Posts</span></h2>
+            </header>
+            
+            <article class="cols">
+                            
+                <ul id="postlist"></ul>
+                
+            </article>
+            
+            <br>
+            
+            <div class="footer">
+                hosted by <a style="color: red; text-decoration: none" href="https://preposter.us">preposter.us</a>
+            </div>            
+            
+        </section>
 		<script>
 			var serverProtocol = location.protocol;
 			var serverHost = location.hostname;
