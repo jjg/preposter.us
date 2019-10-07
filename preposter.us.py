@@ -49,6 +49,7 @@ def unpack_message(uid, message, blog_dir):
 
 		# extract message body
 		if part.get_content_type() == 'text/html':
+            # TODO: remove any containing head/body tags
 			html_body = part.get_payload(decode=True)
 			
 		if part.get_content_type() == 'text/plain':
