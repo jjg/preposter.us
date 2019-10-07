@@ -2,7 +2,7 @@ body {
     background: #FFFAFD;
     font-size:100%;
     line-height:1.5;
-    font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+    font: message-box;
 }
 
 header {
@@ -18,12 +18,12 @@ section {
 }
 
 h1, h2{
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font: small-caption;
     color: #27272E;
 }
 
 h1 span {
-    font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+    font: caption;
     font-style:italic;
 }
 
