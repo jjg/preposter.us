@@ -1,0 +1,13 @@
+[mailserver]
+imap_server: 
+smtp_server: 
+smtp_port: 
+email_address: 
+email_password: 
+
+[webserver]
+web_hostname: 
+web_filesystem_root: 
+
+[system]
+admin_email:

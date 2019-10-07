@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title>Preposter.us</title>
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+		<link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
+		<style>
+			a, a:link, a:visited, a:active {
+				color:black;
+			}
+            h2 {
+                color:gray;
+            }
+			.header{
+				font-family: florencesans_shadedregular;
+				font-size:42px;
+				margin: 25px;
+			}
+			.content{
+				font-family: florencesansregular;
+				letter-spacing: 1;
+				line-height: 1.8;
+				margin-top: 25px;
+				margin-left: 40px;
+				margin-right: 40px;
+				margin-bottom: 25px;
+			}
+			.footer{
+				font-family: florencesansregular;
+				letter-spacing: 3;
+				font-size: small;
+				text-align: center;
+				margin-top: 60px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			Welcome to Preposter.us!
+		</div>
+		<div class="content">
+			<h2>these are the blogs...</h2>
+			<div id="bloglistcontainer">
+				<ul id="bloglist"></ul>
+			</div>
+		</div>
+		<div class="footer">
+			powered by <a style="color: red; text-decoration: none" href="https://github.com/jjg/preposter.us">preposter.us</a>
+		</div>
+		
+		<script>
+			var serverProtocol = location.protocol;
+			var serverHost = location.hostname;
+			var serverPort = location.port;
+			var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
+			var blogListURL = serverURL + '/blogs.html';
+			
+			var blogListReq = new XMLHttpRequest();
+			blogListReq.onload = renderList;
+			blogListReq.open('GET', blogListURL, true);
+			blogListReq.send();
+			
+			function renderList(){
+				var blogs = this.responseText;
+				var bloglist = document.getElementById('bloglist');
+				bloglist.innerHTML = blogs;
+			}
+		</script>
+	</body>
+</html>
