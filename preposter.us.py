@@ -276,6 +276,7 @@ if uid_list[0] != '':
 			new_post = new_post.replace('{0}', post_title)
 			new_post = new_post.replace('{1}', post_author)
 			new_post = new_post.replace('{2}', post_body)
+			# TODO: format this date to something prettier
 			new_post = new_post.replace('{3}', post_date)
 			
 			post_file = open(post_physical_path, 'w')
