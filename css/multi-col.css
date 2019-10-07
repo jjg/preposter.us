@@ -79,6 +79,10 @@ p {
     margin-bottom: 1em;
 }
 
+a {
+    color: red;
+}
+
 @media screen and (max-width: 25em) {
     body {
         font-size: 90%;
