@@ -2,99 +2,20 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<title>{0}</title>
-		<link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
-		<style>
-			h1 a, h1 a:link, h1 a:visited, h1 a:active {
-				text-decoration: none;
-				color:black;
-			}
-			
-			h2 {
-				color:gray;
-			}
-
-			a, a:link, a:visited, a:active {
-				color:red;
-			}
-
-   		   .wrapper{
-				width: 960px;
-				margin: auto;
-			}
-
-			.header{
-				font-family: florencesans_shadedregular;
-				font-size:42px;
-				text-align:center;
-				margin-top: 25px;
-				margin-bottom:50px;
-			}
-
-			.content{
-				font-family: florencesansregular;
-				letter-spacing: 1;
-				line-height: 1.8;
-				width: 593px;
-				padding-bottom:50px;
-				float: left;
-			}
-
-			.sidebar{
-				font-family: florencesansregular;
-				font-size:28px;
-				color: gray;
-				width: 367px;
-				text-align: left;
-				float: left;
-			}
-
-            .attribution{
-                font-family: florencesansregular;
-                letter-spacing: 3;
-				line-height:2;
-                font-size: small;
-            }
-
-			.footer{
-				font-family: florencesansregular;
-				letter-spacing: 3;
-				font-size: small;
-				text-align: center;
-				margin-top: 60px;
-			}
-
-			.holder {   
-			  width: auto;
-			  display: inline-block;    
-			}
-			
-			.holder img {
-			  width: 400px;
-			  height: auto;    
-			}​
-		</style>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+        <link rel="stylesheet" href="css/reset.css" media="all" />
+        <link rel="stylesheet" href="css/multi-col.css" media="all" />
+        <link href='http://fonts.googleapis.com/css?family=Merriweather:400,400italic,700italic,700|Open+Sans:600italic,800,300' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
-		<div class="wrapper">
-			<div class="header">
-				<a style="text-decoration:none;color:black;" href="./">{1}'s Preposter.us Blog</a>
-			</div>
-			<div class="sidebar">
-				<p>{0} {3}</p>
-		        <div class="attribution">
-					<p>copyright 2019, {1}</br>
-					powered by <a style="text-decoration: none" href="https://codeberg.org/jjg/preposter.us">preposter.us</a></p>
-				</div>
-			</div>
-			<div class="content">
+		<section>
+			<header>
+				<h1><a href="./">{1}'s Preposter.us Blog</a></h1>
+                <h2>{0} {3}</h2>
+			</header>
+			<article>
 				{2}
-			</div>
-		</div>
-		<!-- removing footer until it can cooperate
-		<div class="footer">
-			copyright 2019, {1}</br>
-			powered by <a style="text-decoration: none" href="https://codeberg.org/jjg/preposter.us">preposter.us</a>
-		</div>
-		-->
+			</article>
+		</section>
 	</body>
 </html>
