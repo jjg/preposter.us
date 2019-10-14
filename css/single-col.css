@@ -78,3 +78,8 @@ a {
         font-size: 90%;
     }
 }
+
+img {
+  image-orientation: from-image;
+}
+
