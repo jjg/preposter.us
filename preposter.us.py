@@ -136,6 +136,7 @@ suppress_notification = False
 if len(sys.argv) > 1:
     if sys.argv[1] == 'rebuild':
         shutil.copy('index.html', WEB_ROOT)
+        shutil.copy('podcast.xml', WEB_ROOT)
         shutil.copytree('css', WEB_ROOT + '/css')
         imap_search = 'ALL'
         suppress_notification = True
@@ -298,7 +299,7 @@ if uid_list[0] != '':
                     audio_type = "audio/%s" % audio_filename.split(".")[-1]
                     audio_url = "http://%s/%s/assets/%s" % (WEB_HOST, humane_blog_name, audio_filename)
                     
-                    # update podcast feed
+                    # update user's podcast
                     podcast_physical_path = blog_physical_path + '/podcast.xml'
                     tree = ET.parse(podcast_physical_path)
                     root = tree.getroot()
@@ -327,6 +328,37 @@ if uid_list[0] != '':
                     
                     # save changes
                     tree.write(podcast_physical_path)
+                    
+                    # update site-wide podcast
+                    # TODO: this could be DRY'd up
+                    podcast_physical_path = WEB_ROOT + '/podcast.xml'
+                    tree = ET.parse(podcast_physical_path)
+                    root = tree.getroot()
+                    
+                    # add new episode
+                    channel = root.find('channel')
+                    item = ET.SubElement(channel, 'item')
+                    item_title = ET.SubElement(item, 'title')
+                    item_link = ET.SubElement(item, 'link')
+                    item_guid = ET.SubElement(item, 'guid')
+                    item_pub_date = ET.SubElement(item, 'pubDate')
+                    item_description = ET.SubElement(item, 'description')
+                    item_enclosure = ET.SubElement(item, 'enclosure')
+                    
+                    item_title.text = post.title
+                    item_link.text = post.url
+                    item_guid.text = post.url
+                    item_pub_date.text = post.date
+                    item_description.text = 'an episode about %s by %s' % (post.title, post.author)
+                    
+                    # TODO: add extended podcast attributes
+                    
+                    item_enclosure.set("url", audio_url)
+                    item_enclosure.set("type", audio_type) 
+                    item_enclosure.set("length", audio_length)
+                    
+                    # save changes
+                    tree.write(podcast_physical_path)                    
                 
             # write post to disk
             post_template = open('posttemplate.html', 'r').read()
