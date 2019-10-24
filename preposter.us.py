@@ -43,6 +43,8 @@ def unpack_message(uid, message, blog_dir):
     text_body = ''
     counter = 1
     audio_filename = None
+    audio_length = 0
+    
     for part in message.walk():
         
         if part.get_content_maintype() == 'multipart':
@@ -92,11 +94,13 @@ def unpack_message(uid, message, blog_dir):
             email_body = email_body + '<video controls><source src=\'assets/%s\'></video>' % filename
         
         # handle audio
-        # TODO: podcast support - get file size in bytes
         if filename.find('.mp3') > 0 or filename.find('.wav') > 0 or filename.find('.m4a') > 0:
             store_file = True
             email_body = email_body + '<audio controls><source src=\'assets/%s\'></audio>' % filename
             audio_filename = filename
+            
+            # There might be a better way to get this number...
+            audio_length = len(part.get_payload(decode=True))
         
         if store_file:
             counter += 1
@@ -109,7 +113,7 @@ def unpack_message(uid, message, blog_dir):
     else:
         email_body = text_body + email_body
 
-    return {"email_body": email_body, "audio_filename": audio_filename}
+    return {"email_body": email_body, "audio_filename": audio_filename, "audio_length": audio_length}
 
 def send_notification(destination_email, subject, message):
     # assemble email
@@ -287,8 +291,12 @@ if uid_list[0] != '':
                 
                 # podcast support - add post to podcast XML if media is present
                 if unpacked_message["audio_filename"]:
-                    # debug
-                    print(unpacked_message["audio_filename"])
+                    
+                    # unpack media attributes
+                    audio_filename = unpacked_message["audio_filename"]
+                    audio_length = str(unpacked_message["audio_length"])
+                    audio_type = "audio/%s" % audio_filename.split(".")[-1]
+                    audio_url = "http://%s/%s/assets/%s" % (WEB_HOST, humane_blog_name, audio_filename)
                     
                     # update podcast feed
                     podcast_physical_path = blog_physical_path + '/podcast.xml'
@@ -311,11 +319,11 @@ if uid_list[0] != '':
                     item_pub_date.text = post.date
                     item_description.text = 'an episode about %s by %s' % (post.title, post.author)
                     
-                    # TODO: format the contents of the enclosure properly, i.e.:
-                    # url="http://media.libsyn.com/media/podcast411/411_060325.mp3" length="11779397" type="audio/mpeg"
-                    item_enclosure.set("url", "http://%s/%s/assets/%s" % (WEB_HOST, humane_blog_name, unpacked_message["audio_filename"]))
-                    item_enclosure.set("type", "audio/m4a") # TODO: don't use hard-coded type 
-                    item_enclosure.set("length", "1231471") # TODO: don't use hard-coded length
+                    # TODO: add extended podcast attributes
+                    
+                    item_enclosure.set("url", audio_url)
+                    item_enclosure.set("type", audio_type) 
+                    item_enclosure.set("length", audio_length)
                     
                     # save changes
                     tree.write(podcast_physical_path)
