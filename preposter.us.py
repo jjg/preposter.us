@@ -137,6 +137,7 @@ if len(sys.argv) > 1:
     if sys.argv[1] == 'rebuild':
         shutil.copy('index.html', WEB_ROOT)
         shutil.copy('podcast.xml', WEB_ROOT)
+        shutil.copytree('images', WEB_ROOT + '/images')
         shutil.copytree('css', WEB_ROOT + '/css')
         imap_search = 'ALL'
         suppress_notification = True

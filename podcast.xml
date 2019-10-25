@@ -1,8 +1,24 @@
 <?xml version="1.0"?>
 <rss version="2.0">
   <channel>
-    <title>Preposter.us</title>
+    <title>Preposter.us Podcast</title>
     <link>https://preposter.us</link>
+    <language>en-us</language>
+    <webMaster>admin@preposter.us</webMaster>
+    <image>
+        <url>http://preposter.us/images/logo.png</url>
+        <title>Preposter.us Podcast</title>
+        <link>https://preposter.us</link>
+    </image>
+    <itunes:owner>
+        <itunes:name>Mr Preposter.us</itunes:name>
+        <itunes:email>admin@preposter.us</itunes:email>
+    </itunes:owner>
+    <itunes:category text="Other">
+        <itunes:category text="None"/>
+    </itunes:category>
+    <itunes:explicit>yes</itunes:explicit>
+    <itunes:image href="http://preposter.us/images/logo.png"/>
     <description>Push send, receive podcast</description>
   </channel>
 </rss>
