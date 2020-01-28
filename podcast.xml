@@ -1,8 +1,23 @@
 <?xml version="1.0"?>
-<rss version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:itunesu="http://www.itunesu.com/feed" version="2.0">
   <channel>
-    <title>Preposter.us</title>
+    <atom:link href="https://preposter.us/podcast.xml" rel="self" type="application/rss+xml" />
+    <title>Preposter.us Podcast</title>
     <link>https://preposter.us</link>
+    <language>en-us</language>
+    <webMaster>admin@preposter.us (Mr. Preposter.us)</webMaster>
+    <author>The members of Preposter.us</author>
+    <image>
+        <url>http://preposter.us/images/logo.png</url>
+        <title>Preposter.us Podcast</title>
+        <link>https://preposter.us</link>
+    </image>
+    <itunes:owner>
+        <itunes:name>Mr Preposter.us</itunes:name>
+        <itunes:email>admin@preposter.us</itunes:email>
+    </itunes:owner>
+    <itunes:category text="Arts"/>    <itunes:explicit>no</itunes:explicit>
+    <itunes:image href="http://preposter.us/images/logo.png"/>
     <description>Push send, receive podcast</description>
   </channel>
 </rss>
