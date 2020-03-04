@@ -1,52 +1,35 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Preposter.us</title>
 		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
-		<style>
-			a, a:link, a:visited, a:active {
-				color:black;
-			}
-            h2 {
-                color:gray;
-            }
-			.header{
-				font-family: florencesans_shadedregular;
-				font-size:42px;
-				margin: 25px;
-			}
-			.content{
-				font-family: florencesansregular;
-				letter-spacing: 1;
-				line-height: 1.8;
-				margin-top: 25px;
-				margin-left: 40px;
-				margin-right: 40px;
-				margin-bottom: 25px;
-			}
-			.footer{
-				font-family: florencesansregular;
-				letter-spacing: 3;
-				font-size: small;
-				text-align: center;
-				margin-top: 60px;
-			}
-		</style>
+		<meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+        <link rel="stylesheet" href="css/reset.css" media="all" />
+        <link rel="stylesheet" href="css/single-col.css" media="all" />
+        <link rel="alternate" type="application/rss+xml" title="Preposter.us Podcast" href="https://preposter.us/podcast.xml" />
 	</head>
 	<body>
-		<div class="header">
-			Welcome to Preposter.us!
-		</div>
-		<div class="content">
-			<h2>these are the blogs...</h2>
-			<div id="bloglistcontainer">
-				<ul id="bloglist"></ul>
-			</div>
-		</div>
-		<div class="footer">
-			powered by <a style="color: red; text-decoration: none" href="https://github.com/jjg/preposter.us">preposter.us</a>
-		</div>
-		
+        <section>
+            <header>
+                <h1><span>Welcome to </span>Preposter.us!</h1>
+                <h2><span>these are the blogs...</span></h2>
+            <header>
+                        
+            <article class="cols">
+            
+                <ul id="bloglist"></ul>            
+                
+            </article>
+            
+            <br>
+            
+            <div class="footer">
+                powered by <a style="color: red; text-decoration: none" href="https://codeberg.org/jjg/preposter.us">preposter.us</a>
+            </div>
+            
+        </section>
+            
 		<script>
 			var serverProtocol = location.protocol;
 			var serverHost = location.hostname;

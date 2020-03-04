@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+  <channel>
+    <title>{0}</title>
+    <link>{1}</link>
+    <description>{2}</description>
+  </channel>
+</rss>

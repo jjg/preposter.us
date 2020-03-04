@@ -1,26 +1,29 @@
-###Why###
-When Posterous was created, it was perfect.
+### Why
+
+When [Posterous](https://en.wikipedia.org/wiki/Posterous) was created, it was perfect.
 
 Over time it became bloated, but it's heart was still in the right place.  Then it died.
 
-Preposter.us is an attempt to ressurect the heart of Posterous, in under 500 lines of Python.
+[Preposter.us](https://preposter.us/) is an attempt to ressurect the heart of Posterous, in around 500 lines of Python.
 
-###Status###
-Visit http://jason.gullickson.preposter.us/ To follow along with Preposter.us's development and testing.
 
-###How it works###
+### Status
+After a long hiatus, this project is being revived, slowly.  Once a permanent blog has been established to track progress, a link will be added here.
+
+
+### How it works
 To start a new blog, send a post via email to preposter.us's email address.  Preposter.us will read the email, create a new blog and post your initial entry.  When you want to create a new post, send another email.  To edit/update an existing post, send another email with a subject line that is identical to the title of the post you want to update.  To delete a post, send an email with an identical title that contains no text in the body.
-
-More detailed instructions for using Preposter.us can be found here: http://jason.gullickson.preposter.us/how-to-use-preposterous-1-0.html 
 
 Preposter.us maintains an index of all bloggers using each server, and generates an index for the posts in each blog as well. Blogs are identified by the email address used to post, so to create additional blogs, just submit a post from a different email address.
 
 Anything that can send an email can publish via Preposter.us.
 
-###Requirements###
+
+### Requirements
 Preposter.us requires Python (tested with 2.7, but probably works with any 2.x version), and a webserver that can serve static HTML; thats all.  No database, no external libraries, nada.
 
-###Useage###
+
+### Usage
 To setup a Preposter.us server, start by setting up an email address that the server will listen to (an address you'll be sending posts to), free gmail addresses work great for this.
 
 Next clone this repository and copy preposter.us.cfg.template to preposter.us.cfg.  Using your favorite editor, open preposter.us.cfg, theres a couple configuration variables you'll need to setup for your site.
