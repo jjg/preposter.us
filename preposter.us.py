@@ -262,8 +262,7 @@ if uid_list[0] != '':
                     post_index_obj = json.loads(post_index_json.read())
                     post_index_json.close()
                 
-                # TODO: find a more elegant way to do this than .__dict__
-                post_index_obj['posts'].append({'post':post.__dict__})
+                post_index_obj['posts'].append({'post':dict(post)})
                 post_index_json = open(json_index_physical_path, 'w')
                 post_index_json.write(json.dumps(post_index_obj))
                 post_index_json.close()
