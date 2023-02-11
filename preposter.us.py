@@ -36,7 +36,14 @@ class Post(object):
     author = ''
     date = ''
     url = ''
-        
+
+    def __iter__(self):
+        yield 'title', self.title
+        yield 'slug', self.slug
+        yield 'author', self.author
+        yield 'date', self.date
+        yield 'url', self.url
+
 def unpack_message(uid, message, blog_dir):
     email_body = ''
     html_body = ''
