@@ -91,4 +91,6 @@ a {
 
 img {
   image-orientation: from-image;
+  max-width: 100%;
+  height: auto;
 }
