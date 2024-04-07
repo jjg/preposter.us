@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mr's Preposter.us Blog</title>
+		<meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+        <link rel="stylesheet" href="css/reset.css" media="all" />
+        <link rel="stylesheet" href="css/single-col.css" media="all" />
+	</head>
+	<body>
+        <section>
+            <header>
+                <h1><span>mr's</span> Preposter.us Blog</h1>
+                <h2><span>Posts</span></h2>
+            </header>
+            
+            <article class="cols">
+                            
+                <ul id="postlist"></ul>
+                
+            </article>
+            
+            <br>
+            
+            <div class="footer">
+                hosted by <a style="color: red; text-decoration: none" href="https://preposter.us">preposter.us</a>
+            </div>            
+            
+        </section>
+		<script>
+			var serverProtocol = location.protocol;
+			var serverHost = location.hostname;
+			var serverPort = location.port;
+			//var serverURL = serverProtocol + '//' + serverHost + ':' + serverPort;
+			//var postListURL = serverURL + '/777c3bf6b3b5d05ff5f2a8f38cc4c110/posts.json';
+			var postListURL = 'posts.json';
+			
+			var postListReq = new XMLHttpRequest();
+			postListReq.onload = renderList;
+			postListReq.open('GET', postListURL, true);
+			postListReq.send();
+			
+			function renderList(){
+
+				var posts = JSON.parse(this.responseText).posts;
+				
+				posts.sort(function(a,b) { return Date.parse(b.post.date) - Date.parse(a.post.date) } )
+				
+				var postListHTML = '';
+				for(var i=0;i<posts.length;i++){
+				
+					var postDate = new Date(posts[i].post.date);
+					var dateString = (postDate.getMonth() + 1) + '/' + postDate.getDate() + '/' + postDate.getFullYear();
+					
+					postListHTML = postListHTML + '<li>' + dateString + '&nbsp;<a href="' + posts[i].post.slug + '.html">' + posts[i].post.title + '</a></li>\n';
+				}
+				
+				var postList = document.getElementById('postlist');
+				postList.innerHTML = postListHTML;
+			}
+		</script>
+	</body>
+</html>
