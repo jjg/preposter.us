@@ -4,12 +4,11 @@ When [Posterous](https://en.wikipedia.org/wiki/Posterous) was created, it was pe
 
 Over time it became bloated, but it's heart was still in the right place.  Then it died.
 
-[Preposter.us](https://preposter.us/) is an attempt to ressurect the heart of Posterous, in around 500 lines of Python.
+[Preposter.us](https://preposter.us/) is an attempt to ressurect the heart of Posterous, originally in [around 500 lines of Python](./preposterus-py), and then as a tidy little [Go program](./preposterus-go).
 
 
 ### Status
-After a long hiatus, this project is being revived, slowly.  Once a permanent blog has been established to track progress, a link will be added here.
-
+Preposterus is in the proce
 
 ### How it works
 To start a new blog, send a post via email to preposter.us's email address.  Preposter.us will read the email, create a new blog and post your initial entry.  When you want to create a new post, send another email.  To edit/update an existing post, send another email with a subject line that is identical to the title of the post you want to update.  To delete a post, send an email with an identical title that contains no text in the body.
