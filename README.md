@@ -1,3 +1,6 @@
+# THIS PROJECT IS NOW HOSTED AT CODEBERG
+[https://codeberg.org/jjg/preposter.us](https://codeberg.org/jjg/preposter.us).
+
 ### Why
 
 When [Posterous](https://en.wikipedia.org/wiki/Posterous) was created, it was perfect.
